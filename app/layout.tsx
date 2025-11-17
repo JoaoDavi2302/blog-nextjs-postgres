@@ -17,7 +17,7 @@ export default function RootLayout({
             Home
           </a>
           <a href="#" className="hover:text-[#fe8019] transition-colors">
-            Posts
+            Login
           </a>
           <a href="#" className="hover:text-[#fe8019] transition-colors">
             Contato
