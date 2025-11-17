@@ -9,7 +9,7 @@ export default async function Home() {
     <div className="min-h-screen bg-[#1d2021] text-[#ebdbb2] px-4 py-8">
       <div className="max-w-3xl mx-auto mb-10">
         <h2 className="text-2xl font-semibold text-[#fabd2f] mb-4">
-          Posts Recentes
+          Posts
         </h2>
 
         <div className="bg-[#282828] p-6 rounded-lg border border-[#3c3836]">

@@ -9,3 +9,32 @@ export async function GET() {
         return new Response("Internal error server", {status: 500})
     }
 }
+
+export async function POST(req) {
+    try {
+        const {title, content} = await req.json()
+
+        if(!title || !content ){
+            return new Response(JSON.stringify({ error: 'Preencha todos os dados' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' },
+              })
+        } 
+            
+        const result = await pool.query('INSERT INTO posts (title, content) VALUES($1, $2)', [title, content])
+        
+        return new Response(JSON.stringify({
+            message: 'Post criado com sucesso'
+          }), {
+            status: 201,
+            headers: { 'Content-Type': 'application/json' },
+          })
+    } catch (error) {
+        console.log(`erro aqui: ${error}`)
+        return new Response(JSON.stringify({ error: 'Internal server error' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        }
+
+}
