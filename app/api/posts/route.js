@@ -19,7 +19,9 @@ export async function GET() {
 
 export async function POST(req) {
     try {
-        const {title, content} = await req.json()
+        const formData = await req.formData()
+        const title = formData.get('title')
+        const content = formData.get('content')
 
         if(!title || !content ){
             return new Response(JSON.stringify({ error: 'Preencha todos os dados' }), {
@@ -28,7 +30,8 @@ export async function POST(req) {
               })
         } 
             
-        const result = await pool.query('INSERT INTO posts (title, content) VALUES($1, $2)', [title, content])
+        await pool.query('INSERT INTO posts (title, content) VALUES($1, $2)', [title, content])
+        console.log('Dados recebidos', {title, content})
         
         return new Response(JSON.stringify({
             message: 'Post criado com sucesso'
