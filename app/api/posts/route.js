@@ -1,5 +1,4 @@
 import { pool } from "@/lib/db";
-import { json } from "stream/consumers";
 
 export async function GET() {
     try {
@@ -59,19 +58,4 @@ export async function POST(req) {
           })
         }
 
-}
-
-export async function DELETE(req, {params}) {
-  const id = params.id
-
-  try {
-    const result = await pool.query(`DELETE FROM posts WHERE id = ${id}`)
-
-    if(result.affectedRows === 0){
-      return new Response(JSON.stringify({mensage: 'post não encontrado'}), {status: 404})
-    }
-  } catch (error) {
-    console.error(error);
-    return new Response(JSON.stringify({ erro: 'Erro ao deletar o post' }), { status: 500 });
-  }
 }

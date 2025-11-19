@@ -9,7 +9,7 @@ export default function AdminDashboard (){
                 <h2 className="text-2xl font-semibold text-[#fabd2f] mt-4">
                     Lista de posts 
                 </h2>
-                <ListPosts />
+                <ListPosts isAdmin={true}/>
                 <CreateButton />
             </div>
                 <SearchBox />
