@@ -9,6 +9,7 @@ export default function CreateButton(){
     async function postData(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
+        const form = event.currentTarget
         const formData = new FormData(event.currentTarget)
         const res = await fetch("http://localhost:3000/api/posts", {
             method: 'POST',
@@ -17,6 +18,8 @@ export default function CreateButton(){
 
         const result = await res.json()
         console.log(result)
+
+        form.reset()
     }
     
     const toggleForms = () => {
@@ -25,7 +28,7 @@ export default function CreateButton(){
 
     return(
         <div>
-            <button onClick={toggleForms} className="bg-[#b8bb26] text-[#282828] p-2 m-5 rounded hover:opacity-20 hover:-[#98971a]
+            <button onClick={toggleForms} className="bg-[#b8bb26] text-[#282828] p-2 m-5 rounded hover:bg-[#98971a]
             ">
                 {formsOpen ? 'cancelar': 'novo post +'}
             </button>
@@ -45,8 +48,7 @@ export default function CreateButton(){
                             </label>
                             <input type="text" id="content" name="content" className="mt-1 block rounded-md border-[#d65d0e] shadow-sm
                                 focus:outline-none focus: ring-brand px-4 py-2 bg-[#928374]"  />
-                            <button type="submit" className="bg-[#b8bb26] text-[#282828] p-2 m-5 rounded hover:opacity-20 
-                            hover:-[#98971a]
+                            <button type="submit" className="bg-[#b8bb26] text-[#282828] p-2 m-5 rounded hover:bg-[#98971a]
                             ">
                                 postar
                             </button>
