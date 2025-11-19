@@ -38,9 +38,7 @@ export async function PUT(req, {params}) {
   }
 
   try {
-    const formData = await req.formData()
-    const title = formData.get('title')
-    const content = formData.get('content')
+    const {title, content} = await req.json()
 
     const result = await pool.query("UPDATE posts SET title = $1, content = $2 WHERE id = $3", [title,content,id])
 
@@ -50,7 +48,7 @@ export async function PUT(req, {params}) {
 
     return new Response(JSON.stringify({message: "post editado com sucesso"}), {status: 200})
   } catch (error) {
-    console.log(`erro aqui: ${error}`)
+    console.log(`erro ao editar o post de  id ${id}: ${error}`)
     return new Response(JSON.stringify({ erro: 'Erro ao editar o post' }), { status: 500 });
   }
   

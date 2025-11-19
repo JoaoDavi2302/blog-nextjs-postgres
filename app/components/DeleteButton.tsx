@@ -12,7 +12,7 @@ export default function DeleteButton({postId, onDelete}: DeleteButtonProps){
 
             if (onDelete) onDelete(postId)
         } catch (error) {
-             console.error(`Erro no delete: ${error}`);
+             console.log(`Erro no delete: ${error}`);
         }
     }
 

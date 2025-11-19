@@ -1,5 +1,6 @@
 import { posts } from "../interfaces/type";
 import DeleteButton from "./DeleteButton";
+import EditButton from "./EditButton";
 
 export default async function ListPosts({isAdmin = false}: {isAdmin?: boolean}){
     const res = await fetch("http://localhost:3000/api/posts", {
@@ -25,6 +26,7 @@ export default async function ListPosts({isAdmin = false}: {isAdmin?: boolean}){
                 {isAdmin &&(
                   <div>
                     <DeleteButton postId={post.id}/>
+                    <EditButton postId={post.id}/>
                   </div>
                 )}
               </div>
