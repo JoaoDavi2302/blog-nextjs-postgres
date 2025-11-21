@@ -3,15 +3,28 @@
 import { EditButtonProps } from "../interfaces/editButtonProps"
 import { useState } from "react"
 import Form from "./PostForm"
+import { PostUpdateData } from "../interfaces/formsUpdateData"
 
 export default function EditButton({postId, onEdit}: EditButtonProps){
     const [formsOpen, setFormsOpen] = useState(false)
+    const [currentPost, setCurrentPost] = useState<PostUpdateData | null> (null)
 
-    async function editPost() {
+    async function editPost(formData: PostUpdateData) {
         try {
-                await fetch(`http://localhost:3000/api/posts/${postId}`,{
-                method: 'PUT'
+               const res =  await fetch(`/api/posts/${postId}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
             })
+
+            if(res.ok){
+                const post: PostUpdateData = await res.json()
+                setCurrentPost(post)
+            } else {
+                setCurrentPost(null)
+            }
     
             if (onEdit) onEdit(postId)
         } catch (error) {
@@ -33,7 +46,7 @@ export default function EditButton({postId, onEdit}: EditButtonProps){
             </button>
 
             {formsOpen &&(
-                <Form fun = {editPost} />
+                <Form fun = {editPost} initialData = {currentPost}/>
             )}
        </div>
     )

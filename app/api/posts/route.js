@@ -19,9 +19,7 @@ export async function GET() {
 
 export async function POST(req) {
     try {
-        const formData = await req.formData()
-        const title = formData.get('title')
-        const content = formData.get('content')
+        const {title, content} = await req.json()
 
         if(!title || !content ){
             return new Response(JSON.stringify({ error: 'Preencha todos os dados' }), {

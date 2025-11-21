@@ -1,5 +1,6 @@
-import {FormEvent} from "react";
+import { PostUpdateData } from "./formsUpdateData";
 
 export interface FormsProps{
-    fun: (event: FormEvent<HTMLFormElement>) => void | Promise<void>;
+    fun: (FormData: PostUpdateData) => void | Promise<void>
+    initialData?: PostUpdateData | null
 }

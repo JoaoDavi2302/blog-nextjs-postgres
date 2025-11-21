@@ -33,12 +33,17 @@ export async function PUT(req, {params}) {
     return new Response(JSON.stringify({error: "ID inválido"}), {status: 404})
   }
 
-  if (!title || !content) {
-    return new Response(JSON.stringify({ error: "Título e conteúdo são obrigatórios" }), { status: 400 }); 
-  }
-
   try {
     const {title, content} = await req.json()
+    console.log(title)
+    console.log(content)
+
+    if (!title || !content) {
+      return new Response(JSON.stringify({ error: "Título e conteúdo são obrigatórios" }), { 
+        status: 400, 
+        headers: {'Content-Type': 'application/json'}
+      }); 
+    }
 
     const result = await pool.query("UPDATE posts SET title = $1, content = $2 WHERE id = $3", [title,content,id])
 

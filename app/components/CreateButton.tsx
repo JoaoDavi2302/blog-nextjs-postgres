@@ -1,26 +1,29 @@
 'use client'
 import { useState } from "react";
-import type { FormEvent } from "react";
 import Form from "./PostForm";
+import { PostUpdateData } from "../interfaces/formsUpdateData";
 
 
 export default function CreateButton(){
     const [formsOpen, setFormsOpen] = useState(false)
 
-    async function postData(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
+    async function postData(formData: PostUpdateData) {
 
-        const form = event.currentTarget
-        const formData = new FormData(event.currentTarget)
         const res = await fetch("http://localhost:3000/api/posts", {
             method: 'POST',
-            body: formData,
+            headers: {
+                'content-hype': 'application/json'
+            },
+            body: JSON.stringify(formData),
         })
-
+        
         const result = await res.json()
         console.log(result)
 
-        form.reset()
+        if(result.ok){
+            alert('Post criado com sucesso!')
+            setFormsOpen(false)
+        } 
     }
     
     const toggleForms = () => {
@@ -35,7 +38,7 @@ export default function CreateButton(){
             </button>
 
             {formsOpen &&(
-                <Form fun = {postData} />
+                <Form fun = {postData} initialData={null} />
             )}
         </div>
     )
