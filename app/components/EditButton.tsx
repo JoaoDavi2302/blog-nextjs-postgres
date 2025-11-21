@@ -9,9 +9,25 @@ export default function EditButton({postId, onEdit}: EditButtonProps){
     const [formsOpen, setFormsOpen] = useState(false)
     const [currentPost, setCurrentPost] = useState<PostUpdateData | null> (null)
 
+    async function fetchPostData(){
+        try {
+            const res = await fetch(`api/posts/${postId}`)
+            if(res.ok){
+                const data: PostUpdateData = await res.json()
+                setCurrentPost(data)
+            } else {
+                setCurrentPost(null)
+                console.error('falha ao carrrgar post')
+            }
+           
+        } catch (error) {
+            console.log(`erro ao buscar os posts: ${error}`)
+        }
+    }
+
     async function editPost(formData: PostUpdateData) {
         try {
-               const res =  await fetch(`/api/posts/${postId}`,{
+                await fetch(`/api/posts/${postId}`,{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,12 +35,6 @@ export default function EditButton({postId, onEdit}: EditButtonProps){
                 body: JSON.stringify(formData)
             })
 
-            if(res.ok){
-                const post: PostUpdateData = await res.json()
-                setCurrentPost(post)
-            } else {
-                setCurrentPost(null)
-            }
     
             if (onEdit) onEdit(postId)
         } catch (error) {
@@ -33,7 +43,16 @@ export default function EditButton({postId, onEdit}: EditButtonProps){
     }
 
     const toggleForms = () => {
+        const shouldOpen = !formsOpen
         setFormsOpen(!formsOpen)
+
+        if (shouldOpen){
+            fetchPostData()
+        } else {
+            setCurrentPost(null)
+        }
+        
+
     }
     
     return(
